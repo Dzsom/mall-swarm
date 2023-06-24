@@ -5,10 +5,10 @@ import com.macro.mall.mapper.SmsCouponHistoryMapper;
 import com.macro.mall.model.SmsCouponHistory;
 import com.macro.mall.model.SmsCouponHistoryExample;
 import com.macro.mall.service.SmsCouponHistoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,20 +17,21 @@ import java.util.List;
  */
 @Service
 public class SmsCouponHistoryServiceImpl implements SmsCouponHistoryService {
-    @Autowired
+    @Resource
     private SmsCouponHistoryMapper historyMapper;
+
     @Override
     public List<SmsCouponHistory> list(Long couponId, Integer useStatus, String orderSn, Integer pageSize, Integer pageNum) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         SmsCouponHistoryExample example = new SmsCouponHistoryExample();
         SmsCouponHistoryExample.Criteria criteria = example.createCriteria();
-        if(couponId!=null){
+        if (couponId != null) {
             criteria.andCouponIdEqualTo(couponId);
         }
-        if(useStatus!=null){
+        if (useStatus != null) {
             criteria.andUseStatusEqualTo(useStatus);
         }
-        if(!StringUtils.isEmpty(orderSn)){
+        if (!StringUtils.isEmpty(orderSn)) {
             criteria.andOrderSnEqualTo(orderSn);
         }
         return historyMapper.selectByExample(example);
